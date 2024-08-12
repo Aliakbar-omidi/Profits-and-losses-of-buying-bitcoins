@@ -2,7 +2,7 @@
 import pandas as pd
 import yfinance as yf
 from persiantools.jdatetime import JalaliDateTime, JalaliDate
-
+from matplotlib import pyplot as plt
 
 df = yf.download('BTC-USD', start="2019-01-01", end="2024-08-05")
 
@@ -20,10 +20,10 @@ sun_open = sun_list["Open"]
 wed_close = sun_list["Close"]
 
 df["Benefit"] = wed_close - sun_open
+df["Benefit"].index = df["Benefit"]
 
-# print(sun_list.dropna())
-# print(sun_open)
-# print(wed_close)
-# print(df["Benefit"])
+print(sum(df["Benefit"].dropna()))
 
-print(df["Benefit"].dropna())
+
+plt.plot(df["Benefit"].dropna())
+# plt.show()
