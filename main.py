@@ -1,4 +1,3 @@
-
 import yfinance as yf
 import pandas as pd
 import plotly.graph_objects as go
@@ -24,16 +23,16 @@ df = pd.read_csv('BTC.csv')
 ratio = df['new_close'] / df['Open']
 df['end_point'] = df['start_point'] * ratio.cumprod()
 df['start_point'] = df['end_point'].shift(1)
-df['btc'] = df['start_point']/df['Open']
+df['btc'] = df['start_point'] / df['Open']
 df.reset_index(drop=True, inplace=True)
-df.to_csv("BTC(open-close).csv",index=False)
+df.to_csv("BTC(open-close).csv", index=False)
 
 df = pd.read_csv('BTC(open-close).csv')
 fig = make_subplots(rows=1, cols=2)
 df['text'] = 'wallet : ' + df['start_point'].round().astype(str) + '$'
-fig.add_trace(go.Scatter(x=df['Date'], y=df['start_point'],text=df['text'],name='$'),row=1, col=1)
+fig.add_trace(go.Scatter(x=df['Date'], y=df['start_point'], text=df['text'], name='$'), row=1, col=1)
 df['text'] = 'wallet : ' + df['btc'].round(2).astype(str) + 'BTC'
-fig.add_trace(go.Scatter(x=df['Date'], y=df['btc'],text=df['text'],name='BTC'),row=1, col=2)
+fig.add_trace(go.Scatter(x=df['Date'], y=df['btc'], text=df['text'], name='BTC'), row=1, col=2)
 
-fig.update_layout(width=1300,height=500,)
+fig.update_layout(width=1300, height=500, )
 fig.show()
